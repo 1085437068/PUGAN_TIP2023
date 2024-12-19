@@ -3,13 +3,13 @@ chans: 3
 im_width: 256
 im_height: 256
 
-data_dir : ./tests/input/
+data_dir : data/trainD
 sample_dir : ./samples/
-gtr_dir : ./tests/gt/
-path_gen : ./checkpoints/UIEB/ugan_generator.pth
-path_d : ./Par/model/Dnet_100.pth
-path_t : ./Par/model/Tnet_100.pth
-path_a : ./Par/model/coe_40.pth
+gtr_dir : data/trainD
+path_gen : checkpoints/ugan_generator_1000.110.1from49lr1-4_cri10_uiebdd_29.pth
+path_d : checkpoints/Par/Dnet.pth
+path_t : checkpoints/Par/Tnet.pth
+path_a : checkpoints/Par/coe.pth
 
 
 

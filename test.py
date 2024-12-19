@@ -12,7 +12,7 @@ from torch.autograd import Variable
 from torchvision.utils import save_image
 import torchvision.transforms as transforms
 from Par.model import DNet, TtoDNet, AENet
-from torchvision.transforms import InterpolationMsode
+from torchvision.transforms import InterpolationMode
 
 
 ## options
@@ -65,6 +65,10 @@ transforms_ = [transforms.Resize((img_height, img_width), InterpolationMode.BICU
                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),]
 transform = transforms.Compose(transforms_)
 
+# 创建保存深度图的目录
+depth_sample_path = join(sample_path, 'depth_samples')
+os.makedirs(depth_sample_path, exist_ok=True)
+
 ## testing loop
 times = []
 test_files = sorted(glob(join(dataset_path, "*.*")))
@@ -78,6 +82,10 @@ for path in test_files:
     gen_img = model(inp_img, tm)
     times.append(time.time()-s)
     save_image(gen_img, join(sample_path, basename(path)), normalize=True)
+        # 保存深度图
+    depth_img = depth.cpu().squeeze(0)  # 去掉批次维度
+    depth_img = (depth_img - depth_img.min()) / (depth_img.max() - depth_img.min())  # 归一化到 [0, 1]
+    save_image(depth_img, join(depth_sample_path, basename(path)), normalize=False)
     print ("Tested: %s" % path)
 
 ## run-time    
